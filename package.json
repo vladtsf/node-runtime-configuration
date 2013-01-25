@@ -1,0 +1,32 @@
+{
+  "name": "runtime-configuration",
+  "description": "Runtime configuration loader",
+  "version": "0.0.1",
+  "author": "Vladimir Tsvang <vtsvang@gmail.com>",
+  "dependencies": {
+    "coffee-script": "1.4.0",
+  },
+  "devDependencies": {
+    "mocha": "1.8.1",
+    "should": "1.2.1",
+    "sinon": "1.5.2",
+    "codo": "1.5.4"
+  },
+  "keywords": [
+    "rc",
+    "configuration",
+    "runtime-configuration"
+  ],
+  "repository": "git://github.com/vtsvang/node-runtime-configuration.git",
+  "main": "index.js",
+  "bin": {
+  },
+  "scripts": {
+    "prepublish": "npm prune",
+    "test": "./node_modules/mocha/bin/mocha test/run.coffee --debug",
+    "generate-doc": "./node_modules/codo/bin/codo --name pkgtool --title \"Runtime-onfiguration Documentation\" --private ./lib"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
