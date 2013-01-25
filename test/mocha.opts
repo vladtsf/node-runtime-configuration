@@ -1,0 +1,10 @@
+--ui bdd
+--timeout 500
+--slow 75
+--compilers coffee:coffee-script
+--colors
+--reporter spec
+--require should
+--require coffee-script
+--require test/helpers.coffee
+--growl
