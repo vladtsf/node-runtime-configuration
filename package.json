@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "dependencies": {
-    "coffee-script": "1.4.0"
+    "coffee-script": "*",
+    "optimist": "*"
   },
   "devDependencies": {
-    "mocha": "1.8.1",
-    "should": "1.2.1",
-    "sinon": "1.5.2",
-    "codo": "1.5.4"
+    "mocha": "*",
+    "should": "*",
+    "sinon": "*",
+    "codo": "*"
   },
   "keywords": [
     "rc",

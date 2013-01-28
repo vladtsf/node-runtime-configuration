@@ -8,7 +8,7 @@ Runtime configuration loader
   * Support of ini, json, yml and plist formats
   * Override with CLI arguments and ENV variables
   * Nested configuration support
-  * Synchronous and asynchronous APIs
+  * Asynchronous API
   * Deep extend of defaults
 
 *Idea inspired from [dominictarr/rc](https://github.com/dominictarr/rc)*

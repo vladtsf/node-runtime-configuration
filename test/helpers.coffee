@@ -4,3 +4,4 @@ global.sinon = require "sinon"
 global.shld = require "should"
 
 global.__testsRootDir = __dirname
+global.rc = require( "../index.js" )
