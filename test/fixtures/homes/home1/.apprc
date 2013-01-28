@@ -1,0 +1,4 @@
+[section]
+intProp = 10
+stringProp = foo
+booleanProp = true
