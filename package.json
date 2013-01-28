@@ -5,9 +5,11 @@
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "dependencies": {
     "coffee-script": "*",
-    "optimist": "*"
+    "optimist": "*",
+    "glob": "*"
   },
   "devDependencies": {
+    "wrench": "*",
     "mocha": "*",
     "should": "*",
     "sinon": "*",
