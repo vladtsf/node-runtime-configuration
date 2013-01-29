@@ -60,6 +60,45 @@ describe "RuntimeConfiguration", ->
       it "should invoke @cli()", ->
         @cli.calledOnce.should.be.true
 
+
+    describe "@env()", ->
+      beforeEach ( done ) ->
+        process.env.APP_TEST_VAR = "foo"
+        process.env.APP_TEST__VAR = "bar"
+        @config = new rc.RuntimeConfiguration( "app" ).load done
+
+      afterEach ->
+        delete @config
+
+      it "should override config with env vars prefixed APP_", ->
+        @config.config.should.have.property "testVar", "foo"
+
+      it "should support nesting (separated by __)", ->
+        @config.config.test.should
+          .be.a( "object" )
+          .and.have.property( "var", "bar" )
+
+    describe "@cli()", ->
+      beforeEach ( done ) ->
+        @oldArgv = [ process.argv... ]
+        process.argv.push "--foo", "test1", "--bar.baz", "test2"
+        @config = new rc.RuntimeConfiguration( "app" ).load done
+
+      afterEach ->
+        console.log @oldArgv
+        process.argv = @oldArgv
+
+        delete @oldArgv
+        delete @config
+
+      it "should override config with cli args", ->
+        @config.config.should.have.property "foo", "test1"
+
+      it "should support nesting (dot separated)", ->
+        @config.config.bar.should
+          .be.a( "object" )
+          .and.have.property( "baz", "test2" )
+
     describe "@save()", ->
       beforeEach ( done ) ->
         process.env.HOME = __tmpDir
@@ -79,36 +118,3 @@ describe "RuntimeConfiguration", ->
         call = @write.getCall( 0 ).args
 
         call[ 0 ].should.equal path.join __tmpDir, ".apprc"
-
-    describe "@env()", ->
-      beforeEach ( done ) ->
-        process.env.APP_TEST_VAR = "foo"
-        process.env.APP_TEST__VAR = "bar"
-        @config = new rc.RuntimeConfiguration( "app" ).load done
-
-      afterEach ( done ) ->
-        delete @config
-
-      it "should override config with env vars prefixed APP_", ->
-        @config.config.should.have.property "testVar", "foo"
-
-      it "should support nesting (separated by __)", ->
-        @config.config.test.should
-          .be.a( "object" )
-          .and.have.property( "var", "bar" )
-
-    describe "@cli()", ->
-      beforeEach ( done ) ->
-        process.argv.push "--foo", "bar", "--bar.baz", "foo"
-        @config = new rc.RuntimeConfiguration( "app" ).load done
-
-      afterEach ( done ) ->
-        delete @config
-
-      it "should override config with cli args", ->
-        @config.config.should.have.property "foo", "bar"
-
-      it "should support nesting (dot separated)", ->
-        @config.config.bar.should
-          .be.a( "object" )
-          .and.have.property( "baz", "foo" )

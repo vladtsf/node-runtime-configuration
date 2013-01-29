@@ -47,24 +47,54 @@ class RuntimeConfiguration
 
     # load configs
     async.forEach ( { file, idx } for own file, idx in @lookup() ), iteration, ( err ) =>
+      # load cli args
       @cli()
 
+      # load env vars
+      @env()
+
+      # set config
+      @config = extend true, {}, @_chain...
+
+      # invoke the callback
+      callback.call @, null, @config
 
     # for own path in @lookup()
     #   new rc.Adapter( path ).pick()
-
-    callback()
+    @
 
   save: ->
 
+  # Load env vars
+  #
+  # @return [RuntimeConfiguration] rc instance
+  #
   env: ->
+    keyExp = new RegExp "^#{ @appName.toUpperCase() }_"
+    obj = {}
+
+    for own key, value of process.env when keyExp.test key
+      objPartial = obj
+
+      for own token, idx in tokens = key.replace( keyExp, "" ).split( "__" )
+        token = token.toLowerCase().replace /_(\w)/g, ( match, word ) -> word.toUpperCase()
+
+        if idx is tokens.length - 1
+          objPartial[ token ] = value
+        else
+          objPartial = objPartial[ token ] ?= {}
+
+
+    @_chain.push obj
+    @
 
   # Load cli args overrides
   #
   # @return [RuntimeConfiguration] rc instance
   #
   cli: ->
-    cliArgs = extend {}, optimist.argv
+    # console.log process.argv, optimist.parse process.argv
+    cliArgs = extend {}, optimist.parse process.argv
     delete cliArgs._
     delete cliArgs[ "$0" ]
 
