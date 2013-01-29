@@ -6,7 +6,8 @@
   "dependencies": {
     "coffee-script": "*",
     "optimist": "*",
-    "glob": "*"
+    "glob": "*",
+    "async": "*"
   },
   "devDependencies": {
     "wrench": "*",

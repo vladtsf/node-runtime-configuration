@@ -66,7 +66,7 @@ describe "RuntimeConfiguration", ->
         @config = new rc.RuntimeConfiguration( "app" )
 
         @config.load ( err, config ) ->
-          @config.options.foo = "bar"
+          @config.config.foo = "bar"
           @config.save done
 
       afterEach ->

@@ -1,1 +1,2 @@
-module.exports = function() {}
+require( "coffee-script" )
+module.exports = require( "./lib/index.coffee" )
