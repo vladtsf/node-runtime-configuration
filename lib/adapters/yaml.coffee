@@ -1,7 +1,7 @@
 # YAML configs coder/decoder
 class YAMLAdapter
 
-  yaml = require "yaml"
+  YAML = require "yamljs"
 
   # Detect passed data format
   #
@@ -17,7 +17,7 @@ class YAMLAdapter
   # @return [Object] parsed object
   #
   @parse: ( data ) ->
-    yaml.eval data
+    YAML.parse data
 
   # Stringify passed object.
   #
@@ -25,6 +25,6 @@ class YAMLAdapter
   # @return [String] result string
   #
   @stringify: ( data ) ->
-    throw new Error "Unfortunately, YAML serialization not supported yet"
+    YAML.stringify data
 
 module.exports = YAMLAdapter

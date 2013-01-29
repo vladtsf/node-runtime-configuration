@@ -9,7 +9,7 @@
     "glob": "*",
     "async": "*",
     "plist": "*",
-    "yaml": "*",
+    "yamljs": "*",
     "ini": "*"
   },
   "devDependencies": {
