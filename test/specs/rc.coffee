@@ -1,5 +1,5 @@
 describe "rc", ->
 
+  require "./config-parser"
   require "./runtime-configuration"
-  # require "./adapter"
   # require "./rc-function"

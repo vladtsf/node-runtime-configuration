@@ -1,6 +1,7 @@
 # Configuration class
 class RuntimeConfiguration
 
+  rc = require "./index"
   fs = require "fs"
   url = require "url"
   util = require "util"
@@ -9,13 +10,16 @@ class RuntimeConfiguration
   async = require "async"
   optimist = require "optimist"
 
-  # Construct a new package.
+  # Construct a new RuntimeConfiguration.
   #
   # @param [String] @appName application name
   # @param [Object] @defaults defaults object
   #
   constructor: ( @appName, @defaults = {} ) ->
     throw new Error( "Application name not specified" ) unless @appName?
+
+    # config overrides chain
+    @_chain = []
 
   # Lookup chain of configs.
   #
@@ -28,14 +32,26 @@ class RuntimeConfiguration
 
     [ g1..., g2..., g3... ].reverse()
 
-  # $HOME/.${APPNAME}rc
-  # $HOME/.${APPNAME}/config
-  # $HOME/.config/${APPNAME}
-  # $HOME/.config/${APPNAME}/config
-  # /etc/${APPNAME}rc
-  # /etc/${APPNAME}/config
+  # Load configuration.
+  #
+  # @param [Function] callback
+  # @return [RuntimeConfiguration] rc instance
+  #
+  load: ( callback = -> ) ->
+    chain = @_chain = []
 
-  load: ->
+    iteration = ( item, done ) ->
+      new rc.ConfigParser( item.file ).pick ->
+        done null, chain.push @_parsed
+
+    # load configs
+    async.forEach ( { file, idx } for own file, idx in @lookup() ), iteration, ( err ) =>
+
+
+    # for own path in @lookup()
+    #   new rc.Adapter( path ).pick()
+
+    callback()
 
   save: ->
 

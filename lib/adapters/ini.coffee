@@ -3,6 +3,11 @@ class INIAdapter
 
   ini = require "ini"
 
+  # Detect passed data format
+  #
+  # @param [String] data
+  # @return [Object] is it ini?
+  #
   @detect: ( data ) ->
     /^(\s+)?\[|[\w\d]+\s+?\=/.test data
 
