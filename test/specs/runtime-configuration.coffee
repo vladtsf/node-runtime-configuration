@@ -33,13 +33,15 @@ describe "RuntimeConfiguration", ->
       beforeEach ( done ) ->
         @config = new rc.RuntimeConfiguration( "app" )
         @lookup = sinon.spy @config, "lookup"
-        @pick = sinon.spy rc.Adapter, "pick"
+        @pick = sinon.spy rc.ConfigParser.prototype, "pick"
         @env = sinon.spy @config, "env"
         @cli = sinon.spy @config, "cli"
 
         @config.load done
 
       afterEach ->
+        @pick.restore()
+
         delete @config
         delete @lookup
         delete @pick
@@ -49,8 +51,8 @@ describe "RuntimeConfiguration", ->
       it "should invoke @lookup()", ->
         @lookup.calledOnce.should.be.true
 
-      it "should invoke rc.Adapter.pick()", ->
-        @pick.calledOnce.should.be.true
+      it "should invoke rc.ConfigParser.pick()", ->
+        @pick.called.should.be.true
 
       it "should invoke @env()", ->
         @env.calledOnce.should.be.true

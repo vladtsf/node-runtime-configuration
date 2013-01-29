@@ -1,10 +1,10 @@
-describe "Adapter", ->
+describe "ConfigParser", ->
     before ->
-      @suitable = new rc.Adapter path.join __homepaths.home1, ".apprc"
-      @json = new rc.Adapter path.join __homepaths.json, ".apprc"
-      @yaml = new rc.Adapter path.join __homepaths.yaml, ".apprc"
-      @ini = new rc.Adapter path.join __homepaths.ini, ".apprc"
-      @plist = new rc.Adapter path.join __homepaths.plist, ".apprc"
+      @suitable = new rc.ConfigParser path.join __homepaths.home1, ".apprc"
+      @json = new rc.ConfigParser path.join __homepaths.json, ".apprc"
+      @yaml = new rc.ConfigParser path.join __homepaths.yaml, ".apprc"
+      @ini = new rc.ConfigParser path.join __homepaths.ini, ".apprc"
+      @plist = new rc.ConfigParser path.join __homepaths.plist, ".apprc"
 
     after ->
       delete @suitable
@@ -14,8 +14,8 @@ describe "Adapter", ->
       delete @plist
 
     describe "@constructor()", ->
-      it "should create new instance of rc.Adapter", ->
-        @suitable.should.be.instanceOf rc.Adapter
+      it "should create new instance of rc.ConfigParser", ->
+        @suitable.should.be.instanceOf rc.ConfigParser
 
     describe "@pick()", ->
 
@@ -54,5 +54,5 @@ describe "Adapter", ->
         ( => @plist.parse( "json" ) ).should.throw()
 
     describe "@stringify()", ->
-      it "should write file with appropriate format", ->
+      it "should serialize object to appropriate format", ->
         @json.stringify().should.be.a "string"

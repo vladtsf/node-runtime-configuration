@@ -12,3 +12,4 @@ module.exports = rc = ( program, defaults, callback = -> ) ->
     callback.call @, null, @config
 
 rc.RuntimeConfiguration = require "./runtime-configuration"
+rc.ConfigParser = require "./config-parser"
