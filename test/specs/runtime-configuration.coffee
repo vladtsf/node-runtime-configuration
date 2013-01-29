@@ -74,7 +74,7 @@ describe "RuntimeConfiguration", ->
         delete @write
 
       it "should write ~/.apprc file", ->
-        call = @write.getCall()
+        call = @write.getCall( 0 ).args
 
         call[ 0 ].should.equal path.join __tmpDir, ".apprc"
 
