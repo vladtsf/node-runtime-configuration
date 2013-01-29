@@ -5,6 +5,7 @@
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "dependencies": {
     "coffee-script": "*",
+    "node.extend": "*",
     "optimist": "*",
     "glob": "*",
     "async": "*",

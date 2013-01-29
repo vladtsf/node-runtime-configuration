@@ -9,6 +9,7 @@ class RuntimeConfiguration
   path = require "path"
   async = require "async"
   optimist = require "optimist"
+  extend = require "node.extend"
 
   # Construct a new RuntimeConfiguration.
   #
@@ -46,6 +47,7 @@ class RuntimeConfiguration
 
     # load configs
     async.forEach ( { file, idx } for own file, idx in @lookup() ), iteration, ( err ) =>
+      @cli()
 
 
     # for own path in @lookup()
@@ -57,6 +59,18 @@ class RuntimeConfiguration
 
   env: ->
 
+  # Load cli args overrides
+  #
+  # @return [RuntimeConfiguration] rc instance
+  #
   cli: ->
+    cliArgs = extend {}, optimist.argv
+    delete cliArgs._
+    delete cliArgs[ "$0" ]
+
+    @_chain.push cliArgs
+
+    @
+
 
 module.exports = RuntimeConfiguration
