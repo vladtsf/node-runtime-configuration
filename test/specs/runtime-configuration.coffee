@@ -17,11 +17,11 @@ describe "RuntimeConfiguration", ->
 
       it "should lookup config in $HOME/.config/${APPNAME}", ->
         process.env.HOME = __homepaths.home3
-        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home2, ".config", "app"
+        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home3, ".config", "app"
 
       it "should lookup config in $HOME/.config/${APPNAME}/config", ->
         process.env.HOME = __homepaths.home4
-        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home2, ".config", "app", "config"
+        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home4, ".config", "app", "config"
 
       it "should lookup config in /etc/${APPNAME}rc", ->
         new rc.RuntimeConfiguration( "bash" ).lookup().should.include path.join "/etc/bashrc"
