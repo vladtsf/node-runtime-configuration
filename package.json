@@ -31,7 +31,7 @@
   "scripts": {
     "prepublish": "npm prune",
     "test": "./node_modules/mocha/bin/mocha test/run.coffee --debug",
-    "generate-doc": "./node_modules/codo/bin/codo --name pkgtool --title \"Runtime-onfiguration Documentation\" --private ./lib"
+    "generate-doc": "./node_modules/codo/bin/codo --name rc --title \"Runtime-onfiguration Documentation\" --private ./lib"
   },
   "engines": {
     "node": "*"

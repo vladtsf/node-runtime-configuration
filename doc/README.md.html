@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>Runtime-onfiguration Documentation</title>
+  <link rel='stylesheet' href='assets/codo.css' type='text/css'>
+  <script src='assets/codo.js'></script>
+  <script src='assets/search_data.js'></script>
+</head>
+  <body>
+    <div id='base' data-path=''></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='README.md.html' title='rc'>rc</a>
+    &raquo;
+    <a href='class_index.html' title='Index'>Index</a>
+    &raquo;
+    <span class='title'>README.md</span>
+    <nav>
+      <ul>
+        <li class='noframes'>
+          (<a class='noframes' href='#'>no frames</a>)
+        </li>
+      </ul>
+    </nav>
+    <div id='search'>
+      <a id='class_list_link' href='class_list.html'>Classes</a>
+      <a id='file_list_link' href='file_list.html'>Files</a>
+      <a id='method_list_link' href='method_list.html'>Methods</a>
+      <a id='extra_list_link' href='extra_list.html'>Extras</a>
+    </div>
+  </div>
+  <iframe id='search_frame'></iframe>
+  <div id='fuzzySearch'>
+    <input type='text'>
+    <ol></ol>
+  </div>
+  <div id='help'>
+    <p>
+      Quickly fuzzy find classes, mixins, methods, file:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-T</span>
+        Open fuzzy finder dialog
+      </li>
+    </ul>
+    <p>
+      In frame mode you can toggle the list naviation frame on the left side:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-L</span>
+        Toggle list view
+      </li>
+    </ul>
+    <p>
+      You can focus a list in frame mode or toggle a tab in frameless mode:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-C</span>
+        Class list
+      </li>
+      <li>
+        <span>Ctrl-I</span>
+        Mixin list
+      </li>
+      <li>
+        <span>Ctrl-F</span>
+        File list
+      </li>
+      <li>
+        <span>Ctrl-M</span>
+        Method list
+      </li>
+      <li>
+        <span>Ctrl-E</span>
+        Extras list
+      </li>
+    </ul>
+    <p>
+      You can focus and blur the search input:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-S</span>
+        Focus search input
+      </li>
+      <li>
+        <span>Esc</span>
+        Blur search input
+      </li>
+    </ul>
+    <p>
+      In frameless mode you can close the list tab:
+    </p>
+    <ul>
+      <li>
+        <span>Esc</span>
+        Close list tab
+      </li>
+    </ul>
+  </div>
+</div>
+    <div id='content'>
+      <nav class='toc'>
+        <p class='title'>
+          <a class='hide_toc' href='#'>
+            <strong>Table of Contents</strong>
+          </a>
+          <small>
+            (<a class='float_toc' href='#'>left</a>)
+          </small>
+        </p>
+      </nav>
+      <div id='filecontents'>
+        <h1>runtime-configuration (rc) <a href="https://travis-ci.org/vtsvang/node-runtime-configuration"><img src="https://travis-ci.org/vtsvang/node-runtime-configuration.png" alt="Build Status"></a> <a href="http://coderwall.com/vtsvang"><img src="http://api.coderwall.com/vtsvang/endorsecount.png" alt="endorse"></a></h1><p>Runtime configuration loader</p><h2>Features</h2>
+<ul>
+<li>Detect rc files location and format</li>
+<li>Support of ini, json, yml and plist formats</li>
+<li>Override with CLI arguments and ENV variables</li>
+<li>Nested configuration support</li>
+<li>Asynchronous API</li>
+<li>Deep extend of defaults</li>
+</ul><p><em>Idea inspired from <a href="https://github.com/dominictarr/rc">dominictarr/rc</a></em></p><h2>Installation</h2>
+<pre><code>$ npm install runtime-configuration</code></pre>
+<h2>Usage</h2><p>Completely compatible with JavaScript and CoffeeScript</p><h3>Just load runtime configuration for npm</h3>
+<pre><code class="lang-coffeescript">rc = require &quot;runtime-configuration&quot;
+
+rc &quot;npm&quot;, ( err, config ) -&gt;
+  console.log( config ), unless err</code></pre>
+<h3>Defaults</h3>
+<pre><code class="lang-coffeescript">rc = require &quot;runtime-configuration&quot;
+
+rc &quot;npm&quot;, { registry: &quot;https://registry.npmjs.org/&quot; }, ( err, config ) -&gt;
+  console.log( config.registry ), unless err</code></pre>
+<h3>Change settings</h3>
+<pre><code class="lang-coffeescript">rc = require &quot;runtime-configuration&quot;
+
+rc &quot;npm&quot;, ( err, config ) -&gt;
+  return if err?
+
+  @set &quot;registry&quot;, &quot;http://my-internal-registry.local&quot;
+  @save &quot;ini&quot;, ( err ) -&gt;
+    console.log &quot;Configuration successfully saved!&quot;</code></pre>
+<h2>Standards</h2><p>Given your application name, rc will look in all the obvious places for configuration.</p><ul>
+<li>command line arguments (parsed by optimist)</li>
+<li>enviroment variables prefixed with ${APPNAME}_</li>
+<li>if you passed an option <code>--config file</code> then from that file</li>
+<li><code>$HOME/.${APPNAME}rc</code></li>
+<li><code>$HOME/.${APPNAME}/config</code></li>
+<li><code>$HOME/.config/${APPNAME}</code></li>
+<li><code>$HOME/.config/${APPNAME}/config</code></li>
+<li><code>/etc/${APPNAME}rc</code></li>
+<li><code>/etc/${APPNAME}/config</code></li>
+<li>the defaults object you passed in.</li>
+</ul><p>All configuration sources that where found will be flattened into one object,
+so that sources earlier in this list override later ones.</p><h1>Development</h1><p>Add specs for any new or changed functionality.</p><p>Run tests: <code>npm test</code></p><p>Generate documentation: <code>npm run-script generate-doc</code></p><h2>Changelog</h2>
+<ul>
+<li>v0.1.0 - First release</li>
+<li>v0.0.1 - Specs</li>
+</ul>
+<h2>License</h2><p>(The MIT License)</p><p>Copyright (c) 2013 Vladimir Tsvang &lt;vtsvang@gmail.com&gt;</p><p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+&#39;Software&#39;), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p><p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p><p>THE SOFTWARE IS PROVIDED &#39;AS IS&#39;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </div>
+    </div>
+    <div id='footer'>
+  Generated on
+  Wed Jan 30 2013 15:27:29 GMT+0400 (MSK)
+  by
+  <a href='https://github.com/netzpirat/codo' title='CoffeeScript API documentation generator'>Codo</a>
+  v1.5.4
+  (Node.js v0.8.18).
+  &#10034;
+  Press Ctrl-h to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/#!/netzpirat'>@netzpirat</a>
+  &#10034;
+  <a href='https://mksoft.ch'>mksoft.ch</a>
+</div>
+  </body>
+</html>
