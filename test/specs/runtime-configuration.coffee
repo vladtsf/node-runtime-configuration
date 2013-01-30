@@ -79,13 +79,15 @@ describe "RuntimeConfiguration", ->
           .and.have.property( "var", "bar" )
 
     describe "@cli()", ->
+
       beforeEach ( done ) ->
-        @oldArgv = [ process.argv... ]
+        @oldArgv = process.argv
+        process.argv = [ []..., @oldArgv... ]
         process.argv.push "--foo", "test1", "--bar.baz", "test2"
+
         @config = new rc.RuntimeConfiguration( "app" ).load done
 
       afterEach ->
-        console.log @oldArgv
         process.argv = @oldArgv
 
         delete @oldArgv
