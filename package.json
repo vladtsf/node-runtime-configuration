@@ -1,7 +1,7 @@
 {
   "name": "runtime-configuration",
   "description": "Runtime configuration loader",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "dependencies": {
     "coffee-script": "*",

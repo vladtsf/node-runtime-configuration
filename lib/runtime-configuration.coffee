@@ -54,7 +54,7 @@ class RuntimeConfiguration
       @env()
 
       # set config
-      @config = extend true, {}, @_chain...
+      @config = extend true, {}, @defaults, @_chain...
 
       # invoke the callback
       callback.call @, null, @config

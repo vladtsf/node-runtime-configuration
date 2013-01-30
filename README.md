@@ -19,6 +19,8 @@ Runtime configuration loader
 
 ## Usage
 
+Completely compatible with JavaScript and CoffeeScript
+
 ### Just load runtime configuration for npm
 ```coffeescript
 rc = require "runtime-configuration"
@@ -35,11 +37,16 @@ rc "npm", { registry: "https://registry.npmjs.org/" }, ( err, config ) ->
   console.log( config.registry ), unless err
 ```
 
-### Synchronous API
+### Change settings
 ```coffeescript
 rc = require "runtime-configuration"
 
-console.log rc("npm").registry
+rc "npm", ( err, config ) ->
+  return if err?
+
+  @set "registry", "http://my-internal-registry.local"
+  @save "ini", ( err ) ->
+    console.log "Configuration successfully saved!"
 ```
 
 ##Standards
@@ -70,8 +77,8 @@ Generate documentation: `npm run-script generate-doc`
 
 ## Changelog
 
-* v0.0.1
-  * Specs
+* v0.1.0 - First release
+* v0.0.1 - Specs
 
 ## License
 
