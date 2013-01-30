@@ -9,7 +9,7 @@
     "optimist": "*",
     "glob": "*",
     "async": "*",
-    "plist": "*",
+    "plist": "git://github.com/TooTallNate/node-plist.git",
     "yamljs": "*",
     "ini": "*"
   },
