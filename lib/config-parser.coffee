@@ -15,6 +15,7 @@ class ConfigParser
   #
   constructor: ( @path ) ->
     @format = null
+    @parsed = {}
 
   # Pick config format.
   #
@@ -48,20 +49,32 @@ class ConfigParser
     adapter = require "./adapters/#{ format }"
 
     if @rawData is ""
-      @_parsed = {}
+      @parsed = {}
     else if adapter.detect @rawData
-      @_parsed = adapter.parse @rawData
+      @parsed = adapter.parse @rawData
     else
       throw new Error()
 
     @
 
-  # Parse config.
+  # Stringify and save config.
   #
-  # @return [String] stringified value
+  # @param [String] format config format
+  # @param [Function] callback
+  # @return [ConfigParser]
   #
-  stringify: ( format ) ->
-    require( "./adapters/#{ format ? @format }" ).stringify @_parsed
+  stringify: ( format, callback ) ->
+    if typeof format is "function"
+      callback = format
+      format = "json"
+
+    try
+      fs.writeFile @path, ( require( "./adapters/#{ format ? @format }" ).stringify @parsed ), "utf8", ( err ) ->
+        callback err
+    catch e
+      callback e
+
+    @
 
   # Supported formats.
   @formats: [ "json", "plist", "ini", "yaml" ]

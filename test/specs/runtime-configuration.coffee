@@ -101,6 +101,40 @@ describe "RuntimeConfiguration", ->
           .be.a( "object" )
           .and.have.property( "baz", "test2" )
 
+    describe "@set()", ->
+      beforeEach ( done ) ->
+        process.env.HOME = __tmpDir
+        @config = new rc.RuntimeConfiguration( "app" )
+        @config.load done
+
+      afterEach ->
+        delete @config
+
+      it "should set only one key", ->
+        @config.set "foo", "bar"
+        @config.config.should.have.property "foo", "bar"
+
+      it "should set many keys by object", ->
+        @config.set bar: "baz", baz: "foo"
+        @config.config.should.include bar: "baz", baz: "foo"
+
+    describe "@get()", ->
+      beforeEach ( done ) ->
+        process.env.HOME = __tmpDir
+        @config = new rc.RuntimeConfiguration( "app" )
+        @config.load ( err ) ->
+          @set "foo", "bar"
+          done err
+
+      afterEach ->
+        delete @config
+
+      it "should get value by key", ->
+        @config.get( "foo" ).should.equal "bar"
+
+      it "should return entire object if key not specified", ->
+        @config.get().should.be.a "object"
+
     describe "@save()", ->
       beforeEach ( done ) ->
         process.env.HOME = __tmpDir
@@ -109,14 +143,17 @@ describe "RuntimeConfiguration", ->
         @config = new rc.RuntimeConfiguration( "app" )
 
         @config.load ( err, config ) ->
-          @config.config.foo = "bar"
-          @config.save done
+          @config.foo = "bar"
+          @save done
 
       afterEach ->
+        @write.restore()
+
         delete @config
         delete @write
 
       it "should write ~/.apprc file", ->
-        call = @write.getCall( 0 ).args
+        args = @write.getCall( 0 ).args
 
-        call[ 0 ].should.equal path.join __tmpDir, ".apprc"
+        args[ 0 ].should.equal path.join __tmpDir, ".apprc"
+        JSON.parse( args[ 1 ] ).should.have.property "foo", "bar"

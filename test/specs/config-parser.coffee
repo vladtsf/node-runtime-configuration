@@ -5,6 +5,7 @@ describe "ConfigParser", ->
       @yaml = new rc.ConfigParser path.join __homepaths.yaml, ".apprc"
       @ini = new rc.ConfigParser path.join __homepaths.ini, ".apprc"
       @plist = new rc.ConfigParser path.join __homepaths.plist, ".apprc"
+      @writeable = new rc.ConfigParser path.join __tmpDir, ".apprc"
 
     after ->
       delete @suitable
@@ -48,11 +49,44 @@ describe "ConfigParser", ->
 
       it "should try to parse config", ->
         @json.parse( "json" )
-        @json._parsed.should.be.a "object"
+        @json.parsed.should.be.a "object"
 
       it "should raise an error when can't parse", ->
         ( => @plist.parse( "json" ) ).should.throw()
 
     describe "@stringify()", ->
-      it "should serialize object to appropriate format", ->
-        @json.stringify().should.be.a "string"
+      beforeEach ->
+        @write = sinon.spy fs, "writeFile"
+        @writeable.parsed.foo = "bar"
+
+        @stringify = ( format, done, callback ) =>
+          @writeable.stringify format, ( err ) =>
+            callback.apply @, @write.getCall( 0 ).args
+            done err
+
+
+      afterEach ->
+        @write.restore()
+
+        delete @write
+        delete @stringify
+
+      it "should write file", ( done ) ->
+        @stringify "json", done, ( file ) =>
+          file.should.equal path.join __tmpDir, ".apprc"
+
+      it "should serialize json properly", ( done ) ->
+        @stringify "json", done, ( file, serialized ) =>
+          JSON.parse( serialized ).should.have.property "foo", "bar"
+
+      it "should serialize ini properly", ( done ) ->
+        @stringify "ini", done, ( file, serialized ) =>
+          ini.parse( serialized ).should.have.property "foo", "bar"
+
+      it "should serialize yaml properly", ( done ) ->
+        @stringify "yaml", done, ( file, serialized ) =>
+          yaml.parse( serialized ).should.have.property "foo", "bar"
+
+      it "should serialize plist properly", ( done ) ->
+        @stringify "plist", done, ( file, serialized ) =>
+          plist.parseStringSync( serialized ).should.have.property "foo", "bar"

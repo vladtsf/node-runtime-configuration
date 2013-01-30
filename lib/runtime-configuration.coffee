@@ -43,7 +43,7 @@ class RuntimeConfiguration
 
     iteration = ( item, done ) ->
       new rc.ConfigParser( item.file ).pick ->
-        done null, chain.push @_parsed
+        done null, chain.push @parsed
 
     # load configs
     async.forEach ( { file, idx } for own file, idx in @lookup() ), iteration, ( err ) =>
@@ -63,7 +63,48 @@ class RuntimeConfiguration
     #   new rc.Adapter( path ).pick()
     @
 
-  save: ->
+  # Save configuration.
+  #
+  # @param [String] format config format
+  # @param [Function] callback
+  # @return [RuntimeConfiguration] rc instance
+  #
+  save: ( format, callback = -> ) ->
+    if typeof format is "function"
+      callback = format
+      format = "json"
+
+    config = new rc.ConfigParser( path.join process.env.HOME, ".#{ @appName }rc" )
+    config.parsed = @config
+
+    config.stringify format, callback
+
+    @
+
+  # Property getter.
+  #
+  # @param [String] key property name
+  # @return [Object] value
+  #
+  get: ( key ) ->
+    if key? then @config[ key ] else extend( {}, @config )
+
+  # Property setter.
+  #
+  # @param [String|Object] key
+  # @param [Object] value
+  # @return [RuntimeConfiguration] rc instance
+  #
+  set: ( key, value ) ->
+    if ( not value? ) and typeof key is "object"
+      obj = key
+    else
+      obj = {}
+      obj[ key ] = value
+
+    extend on, @config, obj
+
+    @
 
   # Load env vars
   #

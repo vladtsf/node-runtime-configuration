@@ -5,6 +5,9 @@ global.glob = require "glob"
 global.wrench = require( "wrench" )
 global.sinon = require "sinon"
 global.shld = require "should"
+global.plist = require "plist"
+global.yaml = require "yamljs"
+global.ini = require "ini"
 
 global.__testsRootDir = __dirname
 global.__tmpDir = path.join __dirname, ".tmp"

@@ -23,6 +23,6 @@ class JSONAdapter
   # @return [String] result string
   #
   @stringify: ( data ) ->
-    JSON.stringify data
+    JSON.stringify data, null, "  "
 
 module.exports = JSONAdapter

@@ -4,7 +4,6 @@
 --compilers coffee:coffee-script
 --colors
 --reporter spec
---ignore-leaks
 --require should
 --require coffee-script
 --require test/helpers.coffee
