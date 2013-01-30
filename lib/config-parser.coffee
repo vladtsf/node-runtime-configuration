@@ -2,12 +2,6 @@
 class ConfigParser
 
   fs = require "fs"
-  # url = require "url"
-  # util = require "util"
-  # glob = require "glob"
-  # path = require "path"
-  # async = require "async"
-  # optimist = require "optimist"
 
   # Construct a ConfigParser.
   #
