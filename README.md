@@ -77,6 +77,7 @@ Generate documentation: `npm run-script generate-doc`
 
 ## Changelog
 
+* v0.1.1 - Updated plist package
 * v0.1.0 - First release
 * v0.0.1 - Specs
 

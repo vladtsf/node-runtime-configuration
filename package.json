@@ -1,7 +1,7 @@
 {
   "name": "runtime-configuration",
   "description": "Runtime configuration loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Vladimir Tsvang <vtsvang@gmail.com>",
   "dependencies": {
     "coffee-script": "1.4.0",
@@ -9,7 +9,7 @@
     "optimist": "0.3.5",
     "glob": "3.1.17",
     "async": "0.1.22",
-    "plist": "git://github.com/TooTallNate/node-plist.git#4b96b7c0131569e3bba1139d50b63bcfbab4b5cc",
+    "plist": "0.4.2",
     "yamljs": "0.1.4",
     "ini": "1.1.0"
   },
