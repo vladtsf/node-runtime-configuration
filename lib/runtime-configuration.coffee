@@ -20,13 +20,20 @@ class RuntimeConfiguration
     # config overrides chain
     @_chain = []
 
+  # Resolves home directory path.
+  #
+  # @return [String] homepath
+  #
+  home: ->
+    if process.platform is "win32" then process.env.USERPROFILE else process.env.HOME
+
   # Lookup chain of configs.
   #
   # @return [Array] looked up paths
   #
   lookup: ->
-    g1 = glob.sync "#{ process.env.HOME }/.#{ @appName }{rc,/config}"
-    g2 = glob.sync "#{ process.env.HOME }/.config/{#{ @appName },#{ @appName }/config}"
+    g1 = glob.sync "#{ @home() }/.#{ @appName }{rc,/config}"
+    g2 = glob.sync "#{ @home() }/.config/{#{ @appName },#{ @appName }/config}"
     g3 = glob.sync "/etc/#{ @appName }{rc,/config}"
 
     [ g1..., g2..., g3... ].reverse()
@@ -72,7 +79,7 @@ class RuntimeConfiguration
       callback = format
       format = "json"
 
-    config = new rc.ConfigParser( path.join process.env.HOME, ".#{ @appName }rc" )
+    config = new rc.ConfigParser( path.join @home(), ".#{ @appName }rc" )
     config.parsed = @config
 
     config.stringify format, callback
