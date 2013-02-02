@@ -8,19 +8,19 @@ describe "RuntimeConfiguration", ->
 
     describe "@lookup()", ->
       it "should lookup config in $HOME/.${APPNAME}rc", ->
-        process.env.HOME = __homepaths.home1
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home1
         new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home1, ".apprc"
 
       it "should lookup config in $HOME/.${APPNAME}/config", ->
-        process.env.HOME = __homepaths.home2
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home2
         new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home2, ".app", "config"
 
       it "should lookup config in $HOME/.config/${APPNAME}", ->
-        process.env.HOME = __homepaths.home3
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home3
         new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home3, ".config", "app"
 
       it "should lookup config in $HOME/.config/${APPNAME}/config", ->
-        process.env.HOME = __homepaths.home4
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home4
         new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home4, ".config", "app", "config"
 
       it "should lookup config in /etc/${APPNAME}rc", ->
@@ -103,7 +103,7 @@ describe "RuntimeConfiguration", ->
 
     describe "@set()", ->
       beforeEach ( done ) ->
-        process.env.HOME = __tmpDir
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __tmpDir
         @config = new rc.RuntimeConfiguration( "app" )
         @config.load done
 
@@ -120,7 +120,7 @@ describe "RuntimeConfiguration", ->
 
     describe "@get()", ->
       beforeEach ( done ) ->
-        process.env.HOME = __tmpDir
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __tmpDir
         @config = new rc.RuntimeConfiguration( "app" )
         @config.load ( err ) ->
           @set "foo", "bar"
@@ -137,7 +137,7 @@ describe "RuntimeConfiguration", ->
 
     describe "@save()", ->
       beforeEach ( done ) ->
-        process.env.HOME = __tmpDir
+        process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __tmpDir
 
         @write = sinon.spy fs, "writeFile"
         @config = new rc.RuntimeConfiguration( "app" )

@@ -7,7 +7,7 @@ describe "Runtime Configuration", ->
   after ->
 
   beforeEach ->
-    process.env.HOME = __homepaths.json
+    process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.json
     try fs.mkdirSync __tmpDir
 
   afterEach ->
