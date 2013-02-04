@@ -9,19 +9,19 @@ describe "RuntimeConfiguration", ->
     describe "@lookup()", ->
       it "should lookup config in $HOME/.${APPNAME}rc", ->
         process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home1
-        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home1, ".apprc"
+        new rc.RuntimeConfiguration( "app" ).lookup().should.include [ __homepaths.home1.replace( /\\/g, "/" ), ".apprc" ].join "/"
 
       it "should lookup config in $HOME/.${APPNAME}/config", ->
         process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home2
-        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home2, ".app", "config"
+        new rc.RuntimeConfiguration( "app" ).lookup().should.include [ __homepaths.home2.replace( /\\/g, "/" ), ".app", "config" ].join "/"
 
       it "should lookup config in $HOME/.config/${APPNAME}", ->
         process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home3
-        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home3, ".config", "app"
+        new rc.RuntimeConfiguration( "app" ).lookup().should.include [ __homepaths.home3.replace( /\\/g, "/" ), ".config", "app" ].join "/"
 
       it "should lookup config in $HOME/.config/${APPNAME}/config", ->
         process.env[ if process.platform is "win32" then "USERPROFILE" else "HOME" ] = __homepaths.home4
-        new rc.RuntimeConfiguration( "app" ).lookup().should.include path.join __homepaths.home4, ".config", "app", "config"
+        new rc.RuntimeConfiguration( "app" ).lookup().should.include [ __homepaths.home4.replace( /\\/g, "/" ), ".config", "app", "config" ].join "/"
 
       it "should lookup config in /etc/${APPNAME}rc", ->
         # Don't know how to test it properly
